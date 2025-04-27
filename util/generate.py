@@ -2,11 +2,25 @@ import os
 import pandas as pd
 import random
 from faker import Faker
+# add logger
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)    
+# add timestamp to the log
+logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# add file handler
+file_handler = logging.FileHandler('credit_card_records.log')
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(file_handler) 
+
 
 def generate_credit_card_data(num_records=1000):
     # Check if file already exists
+    logger.info("Generating credit card data...")
     if os.path.exists('data/credit_card_records.csv'):
-        print("Data file already exists. Skipping generation.")
+        logger.info("Data file already exists. Skipping generation.")
         return
     
     # Initialize Faker
@@ -23,13 +37,13 @@ def generate_credit_card_data(num_records=1000):
 
     # Create DataFrame
     df = pd.DataFrame(data)
-
+    logger.info(f"Generated {num_records} records")
     # Create data directory if it doesn't exist
     os.makedirs('data', exist_ok=True)
         
     # Save to CSV
     df.to_csv('data/credit_card_records.csv', index=False)
-    print(f"Generated {num_records} records and saved to data/credit_card_records.csv")
+    logger.info(f"Generated {num_records} records and saved to data/credit_card_records.csv")
 
 if __name__ == "__main__":
     generate_credit_card_data()
