@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
@@ -61,6 +62,9 @@ def main():
 
     # Test the model
     score = evaluate_model(model, X_test, y_test)
+    # save the score to a json file
+    with open('model_scores.json', 'w') as f:
+        json.dump({'score': score}, f)
     # print score is:
     print("Model accuracy is: ", score)
     return score
