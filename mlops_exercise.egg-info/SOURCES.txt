@@ -1,0 +1,14 @@
+README.md
+setup.py
+mlops_exercise.egg-info/PKG-INFO
+mlops_exercise.egg-info/SOURCES.txt
+mlops_exercise.egg-info/dependency_links.txt
+mlops_exercise.egg-info/requires.txt
+mlops_exercise.egg-info/top_level.txt
+tests/__init__.py
+tests/test_app.py
+tests/test_generate.py
+tests/test_model.py
+util/__init__.py
+util/generate.py
+util/generate_enhanced.py

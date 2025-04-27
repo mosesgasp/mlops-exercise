@@ -3,6 +3,7 @@ import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
+import os
 
 def load_data(filepath):
     return pd.read_csv(filepath)
@@ -35,9 +36,11 @@ def train_model(X_train, y_train):
     return model
 
 def save_model(model, filepath):
+    # Create directory if it doesn't exist
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
     joblib.dump(model, filepath)
 
-def test_model(model, X_test, y_test):
+def evaluate_model(model, X_test, y_test):
     return model.score(X_test, y_test)
 
 def main():
@@ -57,7 +60,7 @@ def main():
     save_model(model, 'models/model.pkl')
 
     # Test the model
-    score = test_model(model, X_test, y_test)
+    score = evaluate_model(model, X_test, y_test)
     # print score is:
     print("Model accuracy is: ", score)
     return score
