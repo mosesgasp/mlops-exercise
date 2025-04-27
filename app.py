@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
 import os
+from datetime import datetime
 
 def load_data(filepath):
     return pd.read_csv(filepath)
@@ -44,6 +45,28 @@ def save_model(model, filepath):
 def evaluate_model(model, X_test, y_test):
     return model.score(X_test, y_test)
 
+def save_model_score(score):
+    # Create scores directory if it doesn't exist
+    os.makedirs('scores', exist_ok=True)
+    
+    # Load existing scores or create new list
+    scores_file = 'scores/model_scores.json'
+    if os.path.exists(scores_file):
+        with open(scores_file, 'r') as f:
+            model_scores = json.load(f)
+    else:
+        model_scores = []
+    
+    # Add new score
+    model_scores.append({
+        'score': score,
+        'timestamp': datetime.now().isoformat()
+    })
+    
+    # Save updated scores
+    with open(scores_file, 'w') as f:
+        json.dump(model_scores, f, indent=2)
+
 def main():
     # Load the data
     data = load_data('data/credit_card_records.csv')
@@ -62,10 +85,11 @@ def main():
 
     # Test the model
     score = evaluate_model(model, X_test, y_test)
-    # save the score to a json file
-    with open('model_scores.json', 'w') as f:
-        json.dump({'score': score}, f)
-    # print score is:
+    
+    # Save the score
+    save_model_score(score)
+    
+    # Print score
     print("Model accuracy is: ", score)
     return score
 
