@@ -23,7 +23,7 @@ jobs:
         pip install pytest pytest-cov
         pytest tests/ --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # Updated to the latest version
       if: always()
       with:
         name: test-results
